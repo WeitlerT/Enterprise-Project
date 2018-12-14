@@ -4,36 +4,51 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Mvc;
+using FinalProject.Models;
 
 namespace FinalProject.Controllers
 {
     public class CartController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        private StoreModelContext db = new StoreModelContext();
+
+        // GET api/cart
+        //public Cart Get()
+        //{
+        //    return db.Cart.SingleOrDefault(cart => cart.Id == 1);
+        //}
+
+        // GET api/cart/5
+        public List<Cart> Get(string id)
         {
-            return new string[] { "value1", "value2" };
+            var cartitems = from cart in db.Cart where cart.userid == id select cart;
+            return cartitems.ToList();
         }
 
-        // GET api/values/5
-        public string Get(int id)
+        // POST api/cart
+        public Cart Post([FromBody] Cart cart)
         {
-            return "value";
+            if (ModelState.IsValid)
+            {
+                db.Cart.Add(cart);
+                db.SaveChanges();
+            }
+
+            return cart;
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
+        // PUT api/cart/5
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
+        // DELETE api/cart/5
         public void Delete(int id)
         {
+            Cart cart = db.Cart.Single(c => c.Id == id);
+            db.Cart.Remove(cart);
+            db.SaveChanges();
         }
     }
 }

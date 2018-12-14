@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿
 @{
     ViewBag.Title = "Order";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                 </div>
                 <h3>Jolly Crispy Chicken</h3>
                 <div class="pi-price">$5.49</div>
-                <a href="javascript:addToCart(1);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -25,7 +25,7 @@
                 </div>
                 <h3>Jolly Spaghetti</h3>
                 <div class="pi-price">$4.99</div>
-                <a href="javascript:addToCart(2);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -35,7 +35,7 @@
                 </div>
                 <h3>Palabok Fiesta</h3>
                 <div class="pi-price">$5.99</div>
-                <a href="javascript:addToCart(3);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -45,7 +45,7 @@
                 </div>
                 <h3>Aloha Yum</h3>
                 <div class="pi-price">$4.99</div>
-                <a href="javascript:addToCart(4);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -55,7 +55,7 @@
                 </div>
                 <h3>Burger Steak Mystery Meat</h3>
                 <div class="pi-price">$7.29</div>
-                <a href="javascript:addToCart(5);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -65,7 +65,7 @@
                 </div>
                 <h3>Peach Mango Pie</h3>
                 <div class="pi-price">$1.99</div>
-                <a href="javascript:addToCart(6);" class="btn add2cart">Add to cart</a>
+                <a href="javascript:;" class="btn add2cart">Add to cart</a>
             </div>
         </div>
     </div>
@@ -73,19 +73,16 @@
 
 <script>
     function addToCart(id) {
-        cart = {
-            userid: "@User.Identity.GetUserId()",
-            itemid: id
-        };
-
         $.ajax({
             type: "POST",
-            url: "/api/cart",
-            data: JSON.stringify(cart),
+            url: "api/values/Add",
+            data: {
+                id: id
+            },
             contentType: "Application/json",
             dataType: "json",
             success: function (data) {
-                console.log("dab");
+                //
             }
         });
     }
@@ -102,21 +99,18 @@
         margin-top: 20px;
         position: relative;
     }
-
-        .product-item:hover {
-            box-shadow: 5px 5px rgba(234, 234, 234, 0.9);
-        }
-
-        .product-item:after {
-            content: ".";
-            display: block;
-            height: 0;
-            clear: both;
-            visibility: hidden;
-            font-size: 0;
-            line-height: 0;
-        }
-
+    .product-item:hover {
+        box-shadow: 5px 5px rgba(234, 234, 234, 0.9);
+    }
+    .product-item:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+        font-size: 0;
+        line-height:0;
+    }
     .sticker {
         position: absolute;
         top: 0;
@@ -124,32 +118,27 @@
         width: 63px;
         height: 63px;
     }
-
     .sticker-new {
         background: url(http://keenthemes.com/assets/bootsnipp/new.png) no-repeat;
         left: auto;
         right: 0;
     }
-
     .pi-img-wrapper {
         position: relative;
     }
-
-        .pi-img-wrapper div {
-            background: rgba(0,0,0,0.3);
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: none;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-
-    .product-item:hover > .pi-img-wrapper > div {
+    .pi-img-wrapper div {
+        background: rgba(0,0,0,0.3);
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+    .product-item:hover>.pi-img-wrapper>div {
         display: block;
     }
-
     .pi-img-wrapper div .btn {
         padding: 3px 10px;
         color: #fff;
@@ -162,7 +151,6 @@
         line-height: 1.4;
         font-size: 12px;
     }
-
     .product-item .btn:hover {
         background: #e84d1c;
         border-color: #c8c8c8;
@@ -174,22 +162,18 @@
         padding-bottom: 4px;
         text-transform: uppercase;
     }
-
-        .product-item h3 a {
-            color: #3e4d5c;
-        }
-
-            .product-item h3 a:hover {
-                color: #E02222;
-            }
-
+    .product-item h3 a {
+        color: #3e4d5c;
+    }
+    .product-item h3 a:hover {
+        color: #E02222;
+    }
     .pi-price {
         color: #e84d1c;
         font-size: 18px;
         float: left;
         padding-top: 1px;
     }
-
     .product-item .add2cart {
         float: right;
         color: #a8aeb3;
@@ -197,10 +181,9 @@
         padding: 3px 6px;
         text-transform: uppercase;
     }
-
-        .product-item .add2cart:hover {
-            color: #fff;
-            background: #e84d1c;
-            border-color: #e84d1c;
-        }
+    .product-item .add2cart:hover {
+        color: #fff;
+        background: #e84d1c;
+        border-color: #e84d1c;
+    }
 </style>

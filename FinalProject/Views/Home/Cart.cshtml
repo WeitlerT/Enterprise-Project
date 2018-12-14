@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<FinalProject.Models.ItemResult>
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<h2>Cart</h2>
+
+<div class="container">
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th style="width:50%">Product</th>
+                <th style="width:18%">Price</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ var total = 0.00; }
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-th="Product">
+                            <h4>@item.name</h4>
+                        </td>
+                        <td data-th="Price">$@item.price</td>
+                        <td data-th="Subtotal" class="text-center">@item.price</td>
+                        <td class="actions" data-th="">
+                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                    </tr>
+                    total += item.price;
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center"><strong>Total $@total</strong></td>
+            </tr>
+            <tr>
+                <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total $@total</strong></td>
+                <td><a href="#" class="btn btn-success btn-block">Submit Order <i class="fa fa-angle-right"></i></a></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script>
+    function addToCart(id) {
+        
+        $.ajax({
+            type: "POST",
+            url: "api/cart",
+            data: {
+                userid: "@User.Identity.GetUserId()",
+                itemid: id
+            },
+            contentType: "Application/json",
+            dataType: "json",
+            success: function (data) {
+                Console.log("dab");
+            }
+        });
+    }
+</script>
+
+<style>
+    .table > tbody > tr > td, .table > tfoot > tr > td {
+        vertical-align: middle;
+    }
+
+    @@media screen and (max-width: 600px) {
+        #cart tbody td .form-control {
+            width: 20%;
+            display: inline !important;
+        }
+
+        .actions .btn {
+            width: 36%;
+            margin: 1.5em 0;
+        }
+
+        .actions .btn-info {
+            float: left;
+        }
+
+        .actions .btn-danger {
+            float: right;
+        }
+
+        #cart thead {
+            display: none;
+        }
+
+        #cart tbody td {
+            display: block;
+            padding: .6rem;
+            min-width: 320px;
+        }
+
+        #cart tbody tr td:first-child {
+            background: #333;
+            color: #fff;
+        }
+
+        #cart tbody td:before {
+            content: attr(data-th);
+            font-weight: bold;
+            display: inline-block;
+            width: 8rem;
+        }
+
+        #cart tfoot td {
+            display: block;
+        }
+
+            #cart tfoot td .btn {
+                display: block;
+            }
+    }
+</style>
