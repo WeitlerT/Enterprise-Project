@@ -20,11 +20,11 @@ namespace FinalProject.Controllers
         //}
 
         // GET api/cart/5
-        public List<Cart> Get(string id)
-        {
-            var cartitems = from cart in db.Cart where cart.userid == id select cart;
-            return cartitems.ToList();
-        }
+        //public List<Cart> Get(string id)
+        //{
+        //    var cartitems = from cart in db.Cart where cart.userid == id select cart;
+        //    return cartitems.ToList();
+        //}
 
         // POST api/cart
         public Cart Post([FromBody] Cart cart)

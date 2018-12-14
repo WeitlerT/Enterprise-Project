@@ -52,7 +52,10 @@ namespace FinalProject.Controllers
 
             ViewBag.Title = "Order History Page";
 
-            return View();
+            string userid = User.Identity.GetUserId();
+            var orders = from order in db.Order where order.userid == userid select new OrderResult() { Id = order.Id, total = order.total, items = order.items, userid = order.userid };
+
+            return View(orders);
         }
     }
 }

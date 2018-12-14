@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @model IEnumerable<FinalProject.Models.ItemResult>
 @{
-    ViewBag.Title = "Order";
+    ViewBag.Title = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,7 +20,10 @@
             </tr>
         </thead>
         <tbody>
-            @{ var total = 0.00; }
+            @{ 
+                var total = 0.00;
+                var items = "";
+            }
             @if (Model != null)
             {
                 foreach (var item in Model)
@@ -36,7 +39,9 @@
                         </td>
                     </tr>
                     total += item.price;
+                    items += (item.name.Trim() + ", ");
                 }
+                items = items.Substring(0, items.Length - 2);
             }
         </tbody>
         <tfoot>
@@ -47,26 +52,27 @@
                 <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
                 <td colspan="2" class="hidden-xs"></td>
                 <td class="hidden-xs text-center"><strong>Total $@total</strong></td>
-                <td><a href="#" class="btn btn-success btn-block">Submit Order <i class="fa fa-angle-right"></i></a></td>
+                <td><a href="javascript:submitOrder();" class="btn btn-success btn-block">Submit Order <i class="fa fa-angle-right"></i></a></td>
             </tr>
         </tfoot>
     </table>
 </div>
 
 <script>
-    function addToCart(id) {
-        
+    function submitOrder() {
+        order = {
+            items: "@items",
+            total: "@total",
+            userid: "@User.Identity.GetUserId()"
+        }
         $.ajax({
             type: "POST",
-            url: "api/cart",
-            data: {
-                userid: "@User.Identity.GetUserId()",
-                itemid: id
-            },
+            url: "/api/order",
+            data: JSON.stringify(order),
             contentType: "Application/json",
             dataType: "json",
             success: function (data) {
-                Console.log("dab");
+                
             }
         });
     }
