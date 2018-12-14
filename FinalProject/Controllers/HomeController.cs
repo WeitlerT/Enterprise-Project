@@ -14,5 +14,11 @@ namespace FinalProject.Controllers
 
             return View();
         }
+        public ActionResult Order()
+        {
+            ViewBag.Title = "Order Page";
+
+            return View();
+        }
     }
 }
